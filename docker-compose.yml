@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - nodeapp
+
+  nodeapp:
+    build:
+      context: ./nodeapp
+    volumes:
+      - ./nodeapp:/app
+      - /app/node_modules 
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: fullcycle
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
