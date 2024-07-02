@@ -19,6 +19,7 @@ services:
       - NODE_ENV=development
     depends_on:
       - mysql
+    entrypoint: ["dockerize", "-wait", "tcp://mysql:3306", "-timeout", "15s", "npm", "start"]
 
   mysql:
     image: mysql:5.7
